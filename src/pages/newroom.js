@@ -11,13 +11,14 @@ const NewRoom = () => {
 
   const create = async (e) => {
     e.preventDefault();
-    console.log("create");
     await setDoc(doc(db, "rooms", roomNumber), {
       players: Number(players),
       creator: auth.currentUser.email,
       currentPlayersCount: [auth.currentUser.email],
       headGoose: null,
       badGoose: null,
+      inGame: false,
+      isGuess: false,
     });
     router.push(`/room/${roomNumber}`);
   };

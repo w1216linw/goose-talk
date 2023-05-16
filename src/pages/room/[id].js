@@ -1,6 +1,8 @@
+import Characters from "@/components/Characters";
 import PlayerIdentity from "@/components/PlayerIdentity";
+import theme from "@/lib/data";
 import { auth, db } from "@/lib/firebase";
-import { dealPlayer } from "@/utilities/deal";
+import { dealCharacterSet, dealPlayer } from "@/utilities/deal";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -10,6 +12,7 @@ const Room = () => {
   const { id } = router.query;
   const roomRef = doc(db, "rooms", id);
   const [room, setRoom] = useState();
+
   const start = async () => {
     const [headGooseIdx, badGooseIdx] = dealPlayer(
       room.currentPlayersCount.length
@@ -18,6 +21,10 @@ const Room = () => {
       headGoose: room.currentPlayersCount[headGooseIdx],
       badGoose: room.currentPlayersCount[badGooseIdx],
       inGame: true,
+      characterSet: dealCharacterSet(
+        theme.characters,
+        room.currentPlayersCount.length + 2
+      ),
     });
   };
 
@@ -27,6 +34,8 @@ const Room = () => {
     );
     await updateDoc(roomRef, {
       currentPlayersCount: newPlayersArr,
+      inGame: false,
+      isGuess: false,
     });
     router.push("/");
   };
@@ -52,7 +61,6 @@ const Room = () => {
     })();
   }, []);
 
-  //   console.log(room?.currentPlayersCount);
   return (
     <div className="h-screen">
       <button onClick={exit}>Back</button>
@@ -65,9 +73,18 @@ const Room = () => {
       )}
       {room?.currentPlayersCount?.length > 0 &&
         room.currentPlayersCount.map((elem) => <div>{elem}</div>)}
-      {room?.inGame && (
-        <PlayerIdentity badGoose={room?.badGoose} headGoose={room?.headGoose} />
-      )}
+
+      <PlayerIdentity
+        badGoose={room?.badGoose}
+        headGoose={room?.headGoose}
+        inGame={room?.inGame}
+      />
+
+      <Characters
+        headGoose={room?.headGoose}
+        isGuess={room?.isGuess}
+        characterSet={room?.characterSet}
+      />
     </div>
   );
 };
