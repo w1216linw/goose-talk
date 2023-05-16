@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@layer components {
+  .centerBox {
+    @apply h-screen grid place-content-center gap-2;
+  }
+}

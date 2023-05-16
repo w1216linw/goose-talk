@@ -34,7 +34,7 @@ const Login = () => {
 
   console.log(auth?.currentUser?.email);
   return (
-    <div className="grid place-content-center gap-2 h-screen">
+    <div className="centerBox">
       <input type="text" ref={emailRef} />
       <input type="text" ref={passRef} />
       <button onClick={signIn}>Sign In</button>

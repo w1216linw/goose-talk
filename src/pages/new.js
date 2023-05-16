@@ -1,8 +1,10 @@
 import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 
 const New = () => {
+  const router = useRouter();
   const emailRef = useRef();
   const passRef = useRef();
 
@@ -18,9 +20,10 @@ const New = () => {
       emailRef.current.value,
       passRef.current.value
     );
+    router.push("/");
   };
   return (
-    <div className="h-screen grid place-content-center gap-2">
+    <div className="centerBox">
       <input type="text" ref={emailRef} />
       <input type="text" ref={passRef} />
       <button onClick={createNewUser}>Submit</button>

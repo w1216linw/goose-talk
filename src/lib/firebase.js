@@ -3,13 +3,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDF-92Y98WR2JntZQYoZLAVuOfQgi2avlc",
-  authDomain: "firstone-cb28b.firebaseapp.com",
-  projectId: "firstone-cb28b",
-  storageBucket: "firstone-cb28b.appspot.com",
-  messagingSenderId: "238505775325",
-  appId: "1:238505775325:web:a2c68833946c8f2c370b34",
-  measurementId: "G-SRR72J75KS",
+  apiKey: process.env.NEXT_PUBLIC_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_APPID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENTID,
 };
 
 const app = initializeApp(firebaseConfig);
