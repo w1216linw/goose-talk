@@ -20,13 +20,16 @@ const SearchRoom = () => {
   };
 
   return (
-    <div>
+    <div className="flex rounded-lg overflow-hidden">
       <input
+        className="px-2"
         type="text"
         onChange={(e) => setRoomNumber(e.target.value)}
         value={roomNumber}
       />
-      <button onClick={join}>Join Room</button>
+      <button className="bg-green-400 p-2" onClick={join}>
+        JOIN
+      </button>
     </div>
   );
 };

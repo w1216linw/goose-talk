@@ -3,11 +3,12 @@ import { doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import BackIcon from "../assets/backIcon";
 
 const NewRoom = () => {
   const router = useRouter();
-  const [roomNumber, setRoomNumber] = useState();
-  const [players, setPlayers] = useState();
+  const [roomNumber, setRoomNumber] = useState("");
+  const [players, setPlayers] = useState("");
 
   const create = async (e) => {
     e.preventDefault();
@@ -23,12 +24,17 @@ const NewRoom = () => {
     router.push(`/room/${roomNumber}`);
   };
   return (
-    <div>
-      <Link href="/">Back</Link>
-      <form className="centerBox" onSubmit={create}>
+    <div className="p-2 h-screen grid">
+      <Link href="/" className="h-5 w-5 m-5">
+        <BackIcon />
+      </Link>
+      <form
+        className="flex flex-col max-w-xs mx-auto w-[80vw]"
+        onSubmit={create}
+      >
         <label htmlFor="roomNumber">Room Number</label>
         <input
-          className="p-2"
+          className="rounded-lg "
           id="roomNumber"
           type="text"
           minLength={6}
@@ -37,13 +43,18 @@ const NewRoom = () => {
         />
         <label htmlFor="numberOfPlayer">Number of Player</label>
         <input
-          className="p-2"
+          className="rounded-lg "
           id="numberOfPlayer"
           type="number"
           value={players}
           onChange={(e) => setPlayers(e.target.value)}
         />
-        <button type="submit">Create</button>
+        <button
+          type="submit"
+          className="p-2 bg-yellow-400 rounded-lg text-center uppercase mt-5 font-semibold"
+        >
+          Create
+        </button>
       </form>
     </div>
   );

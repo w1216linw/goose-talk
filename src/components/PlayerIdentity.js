@@ -1,22 +1,24 @@
 import { auth } from "@/lib/firebase";
 import { useEffect, useState } from "react";
 
-// 0, normal goose
-// 1, head goose
-// 2, bad goose
-
 const PlayerIdentity = ({ badGoose, headGoose, inGame }) => {
-  const [identity, setIdentity] = useState(0);
+  const [identity, setIdentity] = useState("白鹅");
 
   useEffect(() => {
-    if (auth?.currentUser?.email === badGoose) setIdentity(2);
-    else if (auth?.currentUser?.email === headGoose) setIdentity(1);
-    else setIdentity(0);
+    if (auth?.currentUser?.email === badGoose) setIdentity("恶鹅");
+    else if (auth?.currentUser?.email === headGoose) setIdentity("头鹅");
+    else setIdentity("白鹅");
   }, [badGoose, headGoose]);
 
   if (!inGame) return;
 
-  return <div>{identity}</div>;
+  return (
+    <div className="flex justify-center my-5">
+      <div className="bg-slate-800 text-xl p-8 rounded-full text-center text-slate-800 hover:text-white">
+        {identity}
+      </div>
+    </div>
+  );
 };
 
 export default PlayerIdentity;

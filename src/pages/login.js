@@ -1,3 +1,4 @@
+import GoogleIcon from "@/assets/GoogleIcon";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,14 +33,36 @@ const Login = () => {
     }
   };
 
-  console.log(auth?.currentUser?.email);
   return (
     <div className="centerBox">
-      <input type="text" ref={emailRef} />
-      <input type="text" ref={passRef} />
-      <button onClick={signIn}>Sign In</button>
-      <button onClick={signInWithGoogle}>Sign In with Google</button>
-      <Link href="/new">Create Account</Link>
+      <label htmlFor="email">Email</label>
+      <input type="email" id="email" ref={emailRef} />
+      <label htmlFor="password">Password</label>
+      <input type="password" id="password" ref={passRef} />
+      <div className="flex justify-between">
+        <Link
+          href="/new"
+          className="underline underline-offset-2 text-slate-400"
+        >
+          New User?
+        </Link>
+        <button
+          onClick={signIn}
+          className=" py-1 px-4 bg-yellow-400 rounded-lg text-center uppercase font-semibold text-sm"
+        >
+          Log In
+        </button>
+      </div>
+
+      <button
+        className="mt-5 flex items-center gap-2 bg-white py-4 px-5 rounded-lg hover:bg-gray-300"
+        onClick={signInWithGoogle}
+      >
+        <span className="font-semibold">Sign in with</span>
+        <div className="w-20">
+          <GoogleIcon />
+        </div>
+      </button>
     </div>
   );
 };

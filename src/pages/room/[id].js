@@ -1,3 +1,4 @@
+import BackIcon from "@/assets/backIcon";
 import Characters from "@/components/Characters";
 import PlayerIdentity from "@/components/PlayerIdentity";
 import theme from "@/lib/data";
@@ -21,10 +22,17 @@ const Room = () => {
       headGoose: room.currentPlayersCount[headGooseIdx],
       badGoose: room.currentPlayersCount[badGooseIdx],
       inGame: true,
+      isGuess: false,
       characterSet: dealCharacterSet(
         theme.characters,
         room.currentPlayersCount.length + 2
       ),
+    });
+  };
+
+  const guess = async () => {
+    await updateDoc(roomRef, {
+      isGuess: true,
     });
   };
 
@@ -62,17 +70,28 @@ const Room = () => {
   }, []);
 
   return (
-    <div className="h-screen">
-      <button onClick={exit}>Back</button>
-      <h1>Room #{id}</h1>
-      <p>
-        {room?.players} - {room?.currentPlayersCount?.length}
-      </p>
-      {room?.creator === auth?.currentUser?.email && (
-        <button onClick={start}>Start</button>
-      )}
-      {room?.currentPlayersCount?.length > 0 &&
-        room.currentPlayersCount.map((elem) => <div>{elem}</div>)}
+    <div className="h-screen p-5 max-w-2xl m-auto">
+      <button onClick={exit} className="w-5 h-5 mb-5">
+        <BackIcon />
+      </button>
+      <div className="flex items-center justify-between">
+        <div className="grid text-center">
+          <h1 className="font-semibold text-lg">
+            Room # <span className="text-cyan-600 tracking-widest">{id}</span>
+          </h1>
+          <p>
+            {room?.players} - {room?.currentPlayersCount?.length}
+          </p>
+        </div>
+        {room?.creator === auth?.currentUser?.email && (
+          <button
+            className="py-2 px-4 bg-emerald-400 rounded-lg font-semibold"
+            onClick={start}
+          >
+            Start
+          </button>
+        )}
+      </div>
 
       <PlayerIdentity
         badGoose={room?.badGoose}
@@ -83,6 +102,7 @@ const Room = () => {
       <Characters
         headGoose={room?.headGoose}
         isGuess={room?.isGuess}
+        guess={guess}
         characterSet={room?.characterSet}
       />
     </div>

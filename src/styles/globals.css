@@ -26,6 +26,14 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+input {
+  padding: 0.5rem;
+}
+
+div {
+  user-select: none;
+}
+
 @layer components {
   .centerBox {
     @apply h-screen grid place-content-center gap-2;
