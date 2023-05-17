@@ -23,7 +23,7 @@ const Characters = ({ isGuess, headGoose, characterSet, guess }) => {
   }, [isGuess]);
 
   let body;
-  if (headGoose !== auth.currentUser.email && !isGuess) return;
+  if (headGoose !== auth?.currentUser?.email && !isGuess) return;
   else if (isGuess) {
     body = (
       <div className="grid grid-cols-3 place-items-center gap-5">
@@ -41,7 +41,7 @@ const Characters = ({ isGuess, headGoose, characterSet, guess }) => {
           ))}
       </div>
     );
-  } else if (headGoose === auth.currentUser.email) {
+  } else if (headGoose === auth?.currentUser?.email) {
     body = (
       <>
         <div className="grid grid-cols-3 place-items-center gap-5">

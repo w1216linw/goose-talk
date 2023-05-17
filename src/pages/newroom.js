@@ -3,7 +3,7 @@ import { doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import BackIcon from "../assets/backIcon";
+import BackIcon from "../assets/BackIcon";
 
 const NewRoom = () => {
   const router = useRouter();

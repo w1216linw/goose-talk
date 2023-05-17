@@ -1,4 +1,4 @@
-import BackIcon from "@/assets/backIcon";
+import BackIcon from "@/assets/BackIcon";
 import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";

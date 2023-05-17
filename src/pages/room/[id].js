@@ -1,4 +1,4 @@
-import BackIcon from "@/assets/backIcon";
+import BackIcon from "@/assets/BackIcon";
 import Characters from "@/components/Characters";
 import PlayerIdentity from "@/components/PlayerIdentity";
 import theme from "@/lib/data";
@@ -11,21 +11,21 @@ import { useEffect, useState } from "react";
 const Room = () => {
   const router = useRouter();
   const { id } = router.query;
-  const roomRef = doc(db, "rooms", id);
+  const [roomRef, setRoomRef] = useState();
   const [room, setRoom] = useState();
 
   const start = async () => {
     const [headGooseIdx, badGooseIdx] = dealPlayer(
-      room.currentPlayersCount.length
+      room?.currentPlayersCount.length
     );
     await updateDoc(roomRef, {
-      headGoose: room.currentPlayersCount[headGooseIdx],
-      badGoose: room.currentPlayersCount[badGooseIdx],
+      headGoose: room?.currentPlayersCount[headGooseIdx],
+      badGoose: room?.currentPlayersCount[badGooseIdx],
       inGame: true,
       isGuess: false,
       characterSet: dealCharacterSet(
         theme.characters,
-        room.currentPlayersCount.length + 2
+        room?.currentPlayersCount.length + 2
       ),
     });
   };
@@ -37,7 +37,7 @@ const Room = () => {
   };
 
   const exit = async () => {
-    const newPlayersArr = room.currentPlayersCount.filter(
+    const newPlayersArr = room?.currentPlayersCount.filter(
       (player) => player !== auth.currentUser.email
     );
     await updateDoc(roomRef, {
@@ -49,14 +49,22 @@ const Room = () => {
   };
 
   useEffect(() => {
+    if (id) {
+      setRoomRef(doc(db, "rooms", id));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (!roomRef) return;
     const unsubscribe = onSnapshot(roomRef, (snapshot) => {
       setRoom(snapshot.data());
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [roomRef]);
 
   useEffect(() => {
+    if (!roomRef) return;
     (async () => {
       const tempDoc = await getDoc(roomRef);
       const newPlayersArr = new Set([
@@ -67,7 +75,7 @@ const Room = () => {
         currentPlayersCount: Array.from(newPlayersArr),
       });
     })();
-  }, []);
+  }, [roomRef]);
 
   return (
     <div className="h-screen p-5 max-w-2xl m-auto">
