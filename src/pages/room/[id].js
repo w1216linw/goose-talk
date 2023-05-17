@@ -15,6 +15,9 @@ const Room = () => {
   const [room, setRoom] = useState();
 
   const start = async () => {
+    if (room?.currentPlayersCount.length !== room?.players) {
+      return;
+    }
     const [headGooseIdx, badGooseIdx] = dealPlayer(
       room?.currentPlayersCount.length
     );
@@ -37,14 +40,25 @@ const Room = () => {
   };
 
   const exit = async () => {
-    const newPlayersArr = room?.currentPlayersCount.filter(
-      (player) => player !== auth.currentUser.email
-    );
-    await updateDoc(roomRef, {
-      currentPlayersCount: newPlayersArr,
-      inGame: false,
-      isGuess: false,
-    });
+    if (auth?.currentUser.email === room?.creator) {
+      await updateDoc(roomRef, {
+        currentPlayersCount: [],
+        inGame: false,
+        isGuess: false,
+        headGoose: null,
+        badGoose: null,
+        characterSet: [],
+      });
+    } else {
+      const newPlayersArr = room?.currentPlayersCount.filter(
+        (player) => player !== auth.currentUser.email
+      );
+      await updateDoc(roomRef, {
+        currentPlayersCount: newPlayersArr,
+        inGame: false,
+        isGuess: false,
+      });
+    }
     router.push("/");
   };
 
